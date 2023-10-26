@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: dicepy
+Version: 0.1
+Summary: A dice rolling library for Python.
+Home-page: https://github.com/primal-coder/dicepy
+Author: James J. Evans
+Author-email: joesaysahoy@gmail.com
+Keywords: dice rolling die d20 dnd d&d rpg role playing game
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6
+Requires-Dist: pyglet

@@ -1,0 +1,11 @@
+setup.py
+dicepy/__init__.py
+dicepy/__main__.py
+dicepy/_dice.py
+dicepy/_die.py
+dicepy/_roll.py
+dicepy.egg-info/PKG-INFO
+dicepy.egg-info/SOURCES.txt
+dicepy.egg-info/dependency_links.txt
+dicepy.egg-info/requires.txt
+dicepy.egg-info/top_level.txt
