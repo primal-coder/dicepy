@@ -5,6 +5,8 @@ from typing import Union as _Union
 import pyglet as _pyglet
 
 class MetaDie(type):
+    """Metaclass for the Die class implementing pyglet's EventDispatcher as an attribute. 
+    Registers events for the Die class and the d20 class."""
     def __new__(cls, name, bases, attrs):
         attrs['_dispatcher'] = _pyglet.event.EventDispatcher()
         if name == 'Die':
