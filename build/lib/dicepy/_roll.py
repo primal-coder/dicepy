@@ -1,14 +1,27 @@
 from random import randint as _randint
 from typing import Union as _Union, Optional as _Optional, Callable as _Callable
 
-from ._die import Die as _Die
+from ._die import Die as _Die, d20 as _d20
+
+# Create a static flip function which accepts no arguments
+
+# The function should return either 'heads' or 'tails' randomly.
+
+def flip() -> str:
+    """
+    Flips a coin and returns either "heads" or "tails".
+
+    @return:
+    """
+    coin = _Die(2)
+    return coin.flip()
 
 # Create a static roll function which accepts the die to roll as an argument.
 
 # The function should return the result of the roll.
 
 def roll(
-        die: _Union[_Callable[[int], None], int, tuple[_Callable, ], tuple[int, ], list[_Callable, ], list[int, ]] = None
+        die: _Union[_Callable[[int], None], int, tuple[_Callable, ], tuple[int, ], list[_Callable, ], list[int, ], str] = None
 ) -> int:
     """
     Rolls a die with the specified number of sides.
@@ -33,10 +46,28 @@ def roll(
             raise ValueError(
                 "Try using the rolls function instead of the roll function for rolling multiple die."
                 "\nLike this:\n\t`rolls(3, d6)`")
+        elif isinstance(die, str):
+            if die == 'coin':
+                return flip()
+            elif die.startswith('d') and die[1:].isnumeric() and die[1:] in ['4', '6', '8', '10', '12', '20']:
+                try:
+                    i = int(die[1:])
+                    d = _Die(i)
+                    return d.roll()
+                except ValueError as e:
+                    raise ValueError(
+                        "Try again with an argument that can be interpreted as an integer or one as an instance of the "
+                        "Die class or one as a string formatted like 'd6'."
+                        "\nLike this:\n\t`roll(6)` or `roll(d8)` or `roll('d20')`"
+                    ) from e
+            elif die[0].isnumeric():
+                raise ValueError(
+                    "Try using the rolls function instead of the roll function for rolling multiple die."
+                    "\nLike this:\n\t`rolls(3, d6)` or 'rolls('3d6')`")
         else:
             try:
                 i = int(die)
-                d = Die(i)
+                d = _Die(i)
                 return d.roll()
             except ValueError as e:
                 raise ValueError(
@@ -45,7 +76,7 @@ def roll(
                     "\nLike this:\n\t`roll(6)` or `roll(d8)`"
                 ) from e
     else:
-        standard = Die(6)
+        standard = _Die(6)
         return standard.roll()
 
 
@@ -71,7 +102,7 @@ def rolls(
         die = 6
     if isinstance(
         die,
-        Die
+        _Die
     ):
         return sum(die.roll() for _ in range(dice))
     elif isinstance(
@@ -111,7 +142,7 @@ def ability_roll() -> tuple:
 
     @return:
     """
-    from ._dice import d6
+    d6 = _Die(6)
     rs = [d6.roll() for _ in range(5)]
     rs.sort()
     return rs, sum(rs[2:])
@@ -131,7 +162,7 @@ def ability_rolls(expunge: _Optional[bool] = True) -> list:
     rs = [rs[i][1] for i in range(len(rs))]
     rs.sort(reverse=True)
     if expunge and rs[-1] < 12:
-        print("Expunging low ability scores (<= 11) ... ")
+        #print("Expunging low ability scores (<= 11) ... ")
         rs = ability_rolls()
     return rs
 
@@ -147,6 +178,6 @@ def ability_rolls(expunge: _Optional[bool] = True) -> list:
 def check(
         modifier: _Optional[int] = None,
         dc: _Optional[int] = None) -> bool:
-    from ._dice import d20
+    d20 = _d20()
     mod = modifier if modifier is not None else 0
     return d20.check(mod, dc)

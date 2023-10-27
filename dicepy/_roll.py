@@ -162,7 +162,7 @@ def ability_rolls(expunge: _Optional[bool] = True) -> list:
     rs = [rs[i][1] for i in range(len(rs))]
     rs.sort(reverse=True)
     if expunge and rs[-1] < 12:
-        print("Expunging low ability scores (<= 11) ... ")
+        #print("Expunging low ability scores (<= 11) ... ")
         rs = ability_rolls()
     return rs
 

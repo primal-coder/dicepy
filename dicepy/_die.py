@@ -68,7 +68,7 @@ class Die(metaclass=MetaDie):
         super().__init__()
         self.value = value if value is not None else 6
         if self.value > 2:  # if the die is not a coin
-            def roll(self) -> int:
+            def roll(self, sim: bool = False) -> int:
                 """
                 Rolls the die and returns a random value between 1 and the number of sides on the die.
                 Raises an event "on_roll" with the last roll as argument.
@@ -78,7 +78,8 @@ class Die(metaclass=MetaDie):
                 """
                 self.last_roll = _randint(1, self.value)
                 self._dispatcher.dispatch_event('on_roll', self.last_roll)
-                _sleep(_choice([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]))
+                if sim:
+                    _sleep(_choice([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]))
                 return self.last_roll
 
             setattr(self, 'roll', _types.MethodType(roll, self))

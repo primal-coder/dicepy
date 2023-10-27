@@ -2,10 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='dicepy',
-    version='0.2',
+    version='0.4',
     author='James J. Evans',
     author_email='joesaysahoy@gmail.com',
     description='A dice rolling library for Python.',
+    readme='README.md',
     url='https://github.com/primal-coder/dicepy',
     packages=find_packages(),
     classifiers=[

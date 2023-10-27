@@ -1,5 +1,15 @@
 from ._die import Die as _Die, d20 as _d20
 
+_std_set = {
+    'coin': 2,
+    'd4': 4,
+    'd6': 6,
+    'd8': 8,
+    'd10': 10,
+    'd12': 12,
+    'd20': 20
+}
+
 # Create all the die
 class DiceSet:
     """
@@ -17,20 +27,13 @@ class DiceSet:
         d12 (Die): A Die object with twelve sides.
         d20 (d20): A d20 object with twenty sides.
     """
-    _dice = {
-        'coin': 2,
-        'd4': 4,
-        'd6': 6,
-        'd8': 8,
-        'd10': 10,
-        'd12': 12,
-        'd20': 20
-    }
-    def __init__(self):
-        for die in self._dice:
-            if die != 'd20':
-                setattr(self, die, _Die(self._dice[die]))
+
+    def __init__(self, dice: dict = _std_set):
+        for die in dice:
+            if not die.startswith('d') and die != 'coin' and die[0].isnumeric():
+                for i in range(int(die[0])):
+                    setattr(self, f'{die[1:]}_{"abcdef"[i]}', _Die(dice[die]))
+            elif die != 'd20':
+                setattr(self, die, _Die(dice[die]))
             else:
                 setattr(self, die, _d20())
-                
-dice_set = DiceSet()
